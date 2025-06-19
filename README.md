@@ -13,6 +13,17 @@ It is composed of two parts:
 
 ![Demo Screenshot](screenshot.jpg)
 
+## Agent Overview
+
+The system orchestrates several specialized agents that collaborate on course design:
+
+* **Triage Agent** – first point of contact that routes requests to specialists.
+* **Instructional Design Agent** – structures the course and suggests outlines.
+* **Content Expert Agent** – provides detailed entrepreneurship knowledge.
+* **FAQ Agent** – answers short, common questions using a lookup tool.
+
+The Triage Agent will delegate to these agents based on the user's request, and each specialist can return control back to the triage agent when finished.
+
 ## How to use
 
 ### Setting your OpenAI API key
@@ -89,7 +100,7 @@ This app is designed for demonstration purposes. Feel free to update the agent p
 
 3. **Content Expertise:**
    - The Content Expert Agent provides detailed lesson ideas using the available tools.
-
+   - When done, it returns control to the Triage Agent so you can continue with other requests.
 This flow shows how the system routes product teams to the right specialists when creating entrepreneur courses.
 
 ### Demo flow #2

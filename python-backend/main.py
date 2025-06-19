@@ -156,7 +156,8 @@ def content_expert_instructions(
         f"{RECOMMENDED_PROMPT_PREFIX}\n"
         "You are a content expert specializing in entrepreneurship.\n"
         "Provide factual information and resources to help develop the course.\n"
-        f"Current course title: {title}. Ask clarifying questions if needed and use your tools when appropriate."
+        f"Current course title: {title}. Ask clarifying questions if needed and use your tools when appropriate.\n"
+        "If the user's request is outside your area of expertise or once you have provided sufficient information, hand back to the Triage Agent."
     )
 
 content_expert_agent = Agent[CourseDesignContext](
@@ -209,7 +210,11 @@ triage_agent = Agent[CourseDesignContext](
     handoff_description="A triage agent that can delegate a customer's request to the appropriate agent.",
     instructions=(
         f"{RECOMMENDED_PROMPT_PREFIX} "
-        "You are a helpful triaging agent. You can use your tools to delegate questions to other appropriate agents."
+        "You are a helpful triaging agent. Route requests to the best specialist agent:\n"
+        "- Instructional Design Agent: structures courses and outlines.\n"
+        "- Content Expert Agent: provides detailed entrepreneurship knowledge.\n"
+        "- FAQ Agent: answers short common questions using its lookup tool.\n"
+        "Use the `handoff` tool to delegate to these agents whenever appropriate."
     ),
     handoffs=[
         handoff(agent=content_expert_agent, on_handoff=on_content_handoff),
