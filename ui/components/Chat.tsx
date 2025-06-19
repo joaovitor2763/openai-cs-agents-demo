@@ -64,7 +64,7 @@ export function Chat({ messages, onSendMessage, isLoading }: ChatProps) {
     <div className="flex flex-col h-full flex-1 bg-white shadow-sm border border-gray-200 border-t-0 rounded-xl">
       <div className="bg-blue-600 text-white h-12 px-4 flex items-center rounded-t-xl">
         <h2 className="font-semibold text-sm sm:text-base lg:text-lg">
-          Customer View
+          Team Chat
         </h2>
       </div>
       {/* Messages */}
