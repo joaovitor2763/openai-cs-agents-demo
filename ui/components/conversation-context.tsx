@@ -5,13 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { BookText } from "lucide-react";
 
 interface ConversationContextProps {
-  context: {
-    passenger_name?: string;
-    confirmation_number?: string;
-    seat_number?: string;
-    flight_number?: string;
-    account_number?: string;
-  };
+  context: Record<string, string | null | undefined>;
 }
 
 export function ConversationContext({ context }: ConversationContextProps) {
