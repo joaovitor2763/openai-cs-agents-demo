@@ -148,7 +148,7 @@ def content_expert_instructions(
 
 content_expert_agent = Agent[CourseDesignContext](
     name="Content Expert Agent",
-    model="o3",
+    model="o3-mini",
     handoff_description="Provides expert knowledge on entrepreneurship topics.",
     instructions=content_expert_instructions,
     tools=[outline_course, lesson_content],
