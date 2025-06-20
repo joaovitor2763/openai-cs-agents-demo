@@ -209,7 +209,12 @@ triage_agent = Agent[CourseDesignContext](
     handoff_description="A triage agent that can delegate a customer's request to the appropriate agent.",
     instructions=(
         f"{RECOMMENDED_PROMPT_PREFIX} "
-        "You are a helpful triaging agent. You can use your tools to delegate questions to other appropriate agents."
+        "You are a helpful triaging agent for course design. "
+        "Route the request to one of the specialist agents when possible:\n"
+        "- Instructional Design Agent: organize outlines and objectives.\n"
+        "- FAQ Agent: answer common course creation questions using tools.\n"
+        "- Content Expert Agent: provide detailed entrepreneurship knowledge.\n"
+        "If none of these apply, respond directly."
     ),
     handoffs=[
         handoff(agent=content_expert_agent, on_handoff=on_content_handoff),
