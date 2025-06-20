@@ -34,19 +34,6 @@ def create_initial_context() -> CourseDesignContext:
 # TOOLS
 # =========================
 
-@function_tool(
-    name_override="faq_lookup_tool", description_override="Lookup frequently asked questions."
-)
-async def faq_lookup_tool(question: str) -> str:
-    """Lookup answers to frequently asked questions."""
-    q = question.lower()
-    if "length" in q or "duration" in q:
-        return "Most courses run for 4-6 weeks with weekly lessons and assignments."
-    elif "cost" in q or "price" in q:
-        return "Pricing depends on depth of content, but many entrepreneur courses range from $99 to $499."
-    elif "certificate" in q:
-        return "Yes, a certificate of completion can be provided if desired."
-    return "I'm sorry, I don't know the answer to that question."
 
 @function_tool(
     name_override="outline_course",
@@ -189,17 +176,13 @@ instructional_design_agent = Agent[CourseDesignContext](
     input_guardrails=[relevance_guardrail, jailbreak_guardrail],
 )
 
-faq_agent = Agent[CourseDesignContext](
-    name="FAQ Agent",
+critic_agent = Agent[CourseDesignContext](
+    name="Critic Agent",
     model="gpt-4.1",
-    handoff_description="Answers common questions about course creation.",
+    handoff_description="Reviews work from other agents and offers constructive feedback.",
     instructions=f"""{RECOMMENDED_PROMPT_PREFIX}
-    You are an FAQ agent. If you are speaking to a user, you were likely transferred from the triage agent.
-    Use the following routine to support the user.
-    1. Identify the last question asked by the user.
-    2. Use the faq lookup tool to get the answer. Do not rely on your own knowledge.
-    3. Respond to the user with the answer""",
-    tools=[faq_lookup_tool],
+    You are a critic agent. When asked or when it would be helpful, evaluate the latest course materials
+    or responses from the other agents and provide concise, actionable feedback for improvement.""",
     input_guardrails=[relevance_guardrail, jailbreak_guardrail],
 )
 
@@ -210,21 +193,21 @@ triage_agent = Agent[CourseDesignContext](
     instructions=(
         f"{RECOMMENDED_PROMPT_PREFIX} "
         "You are a helpful triaging agent for course design. "
-        "Route the request to one of the specialist agents when possible:\n"
+        "Route the request to one of the specialist agents on every turn when possible:\n"
         "- Instructional Design Agent: organize outlines and objectives.\n"
-        "- FAQ Agent: answer common course creation questions using tools.\n"
+        "- Critic Agent: review drafts or answers from other agents.\n"
         "- Content Expert Agent: provide detailed entrepreneurship knowledge.\n"
         "If none of these apply, respond directly."
     ),
     handoffs=[
         handoff(agent=content_expert_agent, on_handoff=on_content_handoff),
         instructional_design_agent,
-        faq_agent,
+        critic_agent,
     ],
     input_guardrails=[relevance_guardrail, jailbreak_guardrail],
 )
 
 # Set up handoff relationships
-faq_agent.handoffs.append(triage_agent)
+critic_agent.handoffs.append(triage_agent)
 content_expert_agent.handoffs.append(triage_agent)
 instructional_design_agent.handoffs.append(triage_agent)
