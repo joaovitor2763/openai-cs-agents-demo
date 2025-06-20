@@ -81,7 +81,7 @@ The backend defines four agents used throughout the demo:
 
 - **Triage Agent** – first contact for any request and delegates to specialists.
 - **Instructional Design Agent** – helps structure outlines and learning objectives.
-- **FAQ Agent** – answers common course creation questions using a lookup tool.
+- **Critic Agent** – reviews answers from other agents and suggests improvements when asked.
 - **Content Expert Agent** – provides detailed entrepreneurship knowledge and lesson ideas.
 
 ## Demo Flows
@@ -103,9 +103,9 @@ This flow shows how the system routes product teams to the right specialists whe
 
 ### Demo flow #2
 
-1. **Ask an FAQ-style question:**
-   - User: "How long should each module be?"
-   - The Triage Agent routes you to the FAQ Agent, which looks up the recommended duration.
+1. **Ask for a quick critique:**
+   - User: "Can you review the outline you gave me?"
+   - The Triage Agent routes you to the Critic Agent, which provides feedback on the proposed plan.
 
 2. **Trigger the Relevance Guardrail:**
    - User: "Tell me a joke about airplanes."

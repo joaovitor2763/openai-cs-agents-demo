@@ -8,7 +8,7 @@ import logging
 
 from main import (
     triage_agent,
-    faq_agent,
+    critic_agent,
     content_expert_agent,
     instructional_design_agent,
     create_initial_context,
@@ -108,7 +108,7 @@ def _get_agent_by_name(name: str):
     """Return the agent object by name."""
     agents = {
         triage_agent.name: triage_agent,
-        faq_agent.name: faq_agent,
+        critic_agent.name: critic_agent,
         content_expert_agent.name: content_expert_agent,
         instructional_design_agent.name: instructional_design_agent,
     }
@@ -139,7 +139,7 @@ def _build_agents_list() -> List[Dict[str, Any]]:
         }
     return [
         make_agent_dict(triage_agent),
-        make_agent_dict(faq_agent),
+        make_agent_dict(critic_agent),
         make_agent_dict(content_expert_agent),
         make_agent_dict(instructional_design_agent),
     ]
@@ -180,7 +180,8 @@ async def chat_endpoint(req: ChatRequest):
         conversation_id = req.conversation_id  # type: ignore
         state = conversation_store.get(conversation_id)
 
-    current_agent = _get_agent_by_name(state["current_agent"])
+    # Always start with the triage agent to decide routing for this turn
+    current_agent = triage_agent
     state["input_items"].append({"content": req.message, "role": "user"})
     old_context = state["context"].model_dump().copy()
     guardrail_checks: List[GuardrailCheck] = []
