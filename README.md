@@ -75,6 +75,15 @@ This command will also start the backend.
 
 This app is designed for demonstration purposes. Feel free to update the agent prompts, guardrails, and tools to fit your own educational product workflows or experiment with new use cases! The modular structure makes it easy to extend or modify the orchestration logic for your needs.
 
+## Agents
+
+The backend defines four agents used throughout the demo:
+
+- **Triage Agent** – first contact for any request and delegates to specialists.
+- **Instructional Design Agent** – helps structure outlines and learning objectives.
+- **FAQ Agent** – answers common course creation questions using a lookup tool.
+- **Content Expert Agent** – provides detailed entrepreneurship knowledge and lesson ideas.
+
 ## Demo Flows
 
 ### Demo flow #1
